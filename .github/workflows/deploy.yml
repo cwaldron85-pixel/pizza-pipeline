@@ -180,9 +180,13 @@ jobs:
         working-directory: terraform
         run: terraform init
 
+      - name: Get GitHub runner public IP
+        id: runner-ip
+        run: echo "ip=$(curl -s https://checkip.amazonaws.com)" >> "$GITHUB_OUTPUT"
+
       - name: Terraform apply (secure SSH IP)
         working-directory: terraform
-        run: terraform apply -auto-approve -var="my_ip=${{ secrets.MY_IP }}"
+        run: terraform apply -auto-approve -var="my_ip=${{ steps.runner-ip.outputs.ip }}"
 
       - name: Get EC2 public IP
         id: tf-ip
