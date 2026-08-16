@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-grid">
+
+  <!-- ── Menu ── -->
+  <div>
+    <h2 class="section-title">Our <em>Menu</em></h2>
+
+    <!-- Garlic Bread -->
+    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.1rem;">Garlic Bread</div>
+        <div style="color:var(--muted); font-size:0.85rem; margin-top:0.2rem;">Golden toasted with herb butter</div>
+        <div style="color:var(--tomato); font-weight:500; margin-top:0.5rem;">£4.99</div>
+      </div>
+      <form method="POST" action="/add/garlic-bread">
+        <button class="btn btn-primary" type="submit">+ Add</button>
+      </form>
+    </div>
+
+    <!-- Pizza -->
+    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.1rem;">Build Your Pizza</div>
+        <div style="color:var(--muted); font-size:0.85rem; margin-top:0.2rem;">Choose 2 toppings from our selection</div>
+        <div style="color:var(--tomato); font-weight:500; margin-top:0.5rem;">£12.99</div>
+      </div>
+      <a href="/pizza" class="btn btn-primary">Customise →</a>
+    </div>
+
+    <!-- Beverage -->
+    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.1rem;">Beverage</div>
+        <div style="color:var(--muted); font-size:0.85rem; margin-top:0.2rem;">Self-serve soft drinks</div>
+        <div style="color:var(--tomato); font-weight:500; margin-top:0.5rem;">£2.99</div>
+      </div>
+      <form method="POST" action="/add/beverage">
+        <button class="btn btn-primary" type="submit">+ Add</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── Order panel ── -->
+  <div class="order-panel">
+    <h3>Your Order</h3>
+
+    {% if order %}
+      {% for item in order %}
+        {% set i = loop.index0 %}
+        <div class="order-line">
+          <span>{{ item.name }}</span>
+          <span style="display:flex; align-items:center; gap:0.5rem;">
+            <span style="color:var(--gold);">£{{ "%.2f"|format(item.price) }}</span>
+            <form method="POST" action="/remove/{{ i }}" style="margin:0;">
+              <button class="btn btn-ghost" type="submit" style="padding:0.2rem 0.5rem; font-size:0.7rem;">✕</button>
+            </form>
+          </span>
+        </div>
+      {% endfor %}
+
+      <div class="order-total">
+        <span>Total</span>
+        <span style="color:var(--gold);">£{{ "%.2f"|format(order|sum(attribute='price')) }}</span>
+      </div>
+
+      <div class="order-actions">
+        <a href="/confirm" class="btn btn-primary" style="text-align:center;">Checkout →</a>
+        <form method="POST" action="/cancel">
+          <button class="btn btn-ghost" type="submit" style="width:100%; text-align:center;">Cancel Order</button>
+        </form>
+      </div>
+
+    {% else %}
+      <p class="empty-note">No items yet — add something from the menu.</p>
+    {% endif %}
+  </div>
+
+</div>
+
+{% endblock %}

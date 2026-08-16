@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width:480px; margin:3rem auto; text-align:center;">
+
+  <div style="font-size:4rem; margin-bottom:1rem;">🍕</div>
+
+  <h2 style="font-family:'Playfair Display',serif; font-size:2rem; margin-bottom:0.5rem;">
+    Order <em style="color:var(--tomato);">Placed!</em>
+  </h2>
+
+  <p style="color:var(--muted); margin-bottom:0.5rem; font-size:0.95rem;">
+    Thanks for your order. Your total was
+  </p>
+  <p style="font-family:'Playfair Display',serif; font-size:2rem; color:var(--char); margin-bottom:2rem;">
+    £{{ "%.2f"|format(total) }}
+  </p>
+
+  <div style="background:var(--warm); border-radius:var(--radius); padding:1.2rem; font-size:0.85rem; color:var(--muted); margin-bottom:2rem;">
+    Your pizza is being prepared — it'll be ready in approximately 20–25 minutes.
+  </div>
+
+  <a href="/" class="btn btn-primary" style="padding:0.8rem 2rem;">Start a New Order →</a>
+
+</div>
+
+{% endblock %}

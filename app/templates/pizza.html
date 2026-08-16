@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width:520px; margin:0 auto;">
+  <a href="/" style="color:var(--muted); font-size:0.85rem; text-decoration:none;">← Back to menu</a>
+
+  <h2 class="section-title" style="margin-top:1rem;">Build Your <em>Pizza</em></h2>
+
+  <div class="card">
+    <p style="color:var(--muted); font-size:0.9rem; margin-bottom:1.5rem;">Choose 2 toppings — mix and match as you like.</p>
+
+    <form method="POST" action="/add/pizza">
+
+      <div style="margin-bottom:1.5rem;">
+        <label style="font-weight:500; font-size:0.9rem; display:block; margin-bottom:0.6rem;">First topping</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+          {% for key, name in toppings.items() %}
+          <label style="display:flex; align-items:center; gap:0.5rem; background:var(--warm); border-radius:8px; padding:0.6rem 0.8rem; cursor:pointer; font-size:0.88rem;">
+            <input type="radio" name="topping1" value="{{ key }}" required
+              style="accent-color:var(--tomato);">
+            {{ name }}
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div style="margin-bottom:1.8rem;">
+        <label style="font-weight:500; font-size:0.9rem; display:block; margin-bottom:0.6rem;">Second topping</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+          {% for key, name in toppings.items() %}
+          <label style="display:flex; align-items:center; gap:0.5rem; background:var(--warm); border-radius:8px; padding:0.6rem 0.8rem; cursor:pointer; font-size:0.88rem;">
+            <input type="radio" name="topping2" value="{{ key }}" required
+              style="accent-color:var(--tomato);">
+            {{ name }}
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <button class="btn btn-primary" type="submit" style="width:100%; text-align:center; padding:0.8rem;">
+        Add Pizza to Order →
+      </button>
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

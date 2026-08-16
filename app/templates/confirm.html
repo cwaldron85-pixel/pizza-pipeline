@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width:520px; margin:0 auto;">
+  <a href="/" style="color:var(--muted); font-size:0.85rem; text-decoration:none;">← Edit order</a>
+
+  <h2 class="section-title" style="margin-top:1rem;">Confirm <em>Order</em></h2>
+
+  {% if order %}
+  <div class="card">
+    {% for item in order %}
+    <div style="display:flex; justify-content:space-between; padding:0.6rem 0; border-bottom:1px solid var(--warm); font-size:0.9rem;">
+      <span>{{ item.name }}</span>
+      <span style="color:var(--tomato); font-weight:500;">£{{ "%.2f"|format(item.price) }}</span>
+    </div>
+    {% endfor %}
+
+    <div style="display:flex; justify-content:space-between; padding:1rem 0 0; font-family:'Playfair Display',serif; font-size:1.2rem;">
+      <span>Total</span>
+      <span>£{{ "%.2f"|format(total) }}</span>
+    </div>
+  </div>
+
+  <form method="POST" action="/submit" style="margin-top:1rem;">
+    <button class="btn btn-secondary" type="submit" style="width:100%; text-align:center; padding:0.9rem; font-size:1rem;">
+      Place Order ✓
+    </button>
+  </form>
+
+  <form method="POST" action="/cancel" style="margin-top:0.6rem;">
+    <button class="btn btn-ghost" type="submit" style="width:100%; text-align:center;">Cancel Order</button>
+  </form>
+
+  {% else %}
+    <p style="color:var(--muted);">Your order is empty. <a href="/">Back to menu</a>.</p>
+  {% endif %}
+</div>
+
+{% endblock %}
