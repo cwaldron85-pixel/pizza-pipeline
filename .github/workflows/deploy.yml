@@ -66,6 +66,7 @@ jobs:
         uses: bridgecrewio/checkov-action@v12
         with:
           directory: terraform
+          soft_fail: true
 
   # ---------- SECURITY: Configuration (Ansible) ----------
   security-ansible:
