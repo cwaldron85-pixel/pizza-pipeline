@@ -14,7 +14,7 @@ class MenuItem:
 
 class GarlicBread(MenuItem):
     def __init__(self):
-        super().__init__('Garlic Bread', 4.99)
+        super().__init__('Cheesy Garlic Bread', 4.99)
 
 
 class Beverage(MenuItem):
