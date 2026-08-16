@@ -1,13 +1,14 @@
-- hosts: web
-  become: yes
+- name: Deploy Flask Pizza App
+  hosts: web
+  become: true
 
   tasks:
     - name: Update apt cache
-      apt:
-        update_cache: yes
+      ansible.builtin.apt:
+        update_cache: true
 
     - name: Install Python and pip
-      apt:
+      ansible.builtin.apt:
         name:
           - python3
           - python3-pip
@@ -15,12 +16,12 @@
         state: present
 
     - name: Install Nginx
-      apt:
+      ansible.builtin.apt:
         name: nginx
         state: present
 
     - name: Copy application files
-      copy:
+      ansible.builtin.copy:
         src: ../app/
         dest: /home/ubuntu/app/
         owner: ubuntu
@@ -28,18 +29,19 @@
         mode: '0755'
 
     - name: Create Python virtual environment
-      command: python3 -m venv /home/ubuntu/app/venv
+      ansible.builtin.command: python3 -m venv /home/ubuntu/app/venv
       args:
         creates: /home/ubuntu/app/venv
 
     - name: Install app dependencies into the virtual environment
-      pip:
+      ansible.builtin.pip:
         requirements: /home/ubuntu/app/requirements.txt
         virtualenv: /home/ubuntu/app/venv
 
     - name: Create systemd service for the Flask app
-      copy:
+      ansible.builtin.copy:
         dest: /etc/systemd/system/pizza-app.service
+        mode: '0644'
         content: |
           [Unit]
           Description=Flask Pizza App (Gunicorn)
@@ -56,18 +58,19 @@
           WantedBy=multi-user.target
 
     - name: Reload systemd
-      systemd:
-        daemon_reload: yes
+      ansible.builtin.systemd:
+        daemon_reload: true
 
     - name: Enable and start the Flask app service
-      systemd:
+      ansible.builtin.systemd:
         name: pizza-app
-        enabled: yes
+        enabled: true
         state: restarted
 
     - name: Configure Nginx reverse proxy
-      copy:
+      ansible.builtin.copy:
         dest: /etc/nginx/sites-available/pizza-app
+        mode: '0644'
         content: |
           server {
               listen 80;
@@ -84,17 +87,17 @@
           }
 
     - name: Enable Nginx site
-      file:
+      ansible.builtin.file:
         src: /etc/nginx/sites-available/pizza-app
         dest: /etc/nginx/sites-enabled/pizza-app
         state: link
 
     - name: Remove default Nginx site
-      file:
+      ansible.builtin.file:
         path: /etc/nginx/sites-enabled/default
         state: absent
 
     - name: Restart Nginx
-      systemd:
+      ansible.builtin.systemd:
         name: nginx
         state: restarted
