@@ -213,7 +213,7 @@ jobs:
           echo "${{ steps.tf-ip.outputs.ip }} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/labuser.pem" >> inventory
 
       - name: Wait for instance to finish booting
-        run: sleep 60
+        run: sleep 120
 
       - name: Test SSH connectivity
         run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/labuser.pem ubuntu@${{ steps.tf-ip.outputs.ip }} "echo 'SSH OK'"
