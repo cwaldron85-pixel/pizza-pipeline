@@ -1,7 +1,3 @@
-locals {
-  ssh_cidr = var.my_ip == "0.0.0.0" ? "0.0.0.0/0" : "${var.my_ip}/32"
-}
-
 data "aws_vpc" "default" {
   default = true
 }
@@ -13,8 +9,6 @@ data "aws_internet_gateway" "default" {
   }
 }
 
-# AWS Academy Learner Lab resets the default VPC's main route table (dropping the
-# internet route) between sessions; managing it here restores it on every apply.
 resource "aws_default_route_table" "default" {
   default_route_table_id = data.aws_vpc.default.main_route_table_id
 
@@ -22,6 +16,10 @@ resource "aws_default_route_table" "default" {
     cidr_block = "0.0.0.0/0"
     gateway_id = data.aws_internet_gateway.default.id
   }
+}
+
+locals {
+  ssh_cidr = var.my_ip == "0.0.0.0" ? "0.0.0.0/0" : "${var.my_ip}/32"
 }
 
 resource "aws_security_group" "web_sg" {
