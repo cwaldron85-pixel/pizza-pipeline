@@ -40,6 +40,7 @@ TOPPINGS = {
     '4': 'Pineapple',
     '5': 'Olives',
     '6': 'No Topping',
+    '7': 'Mushrooms',
 }
 
 
